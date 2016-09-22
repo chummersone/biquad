@@ -1,0 +1,404 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		9714D57B1D928F7A0016B4DE /* biquad_all */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 9714D57C1D928F7A0016B4DE /* Build configuration list for PBXAggregateTarget "biquad_all" */;
+			buildPhases = (
+			);
+			dependencies = (
+				9714D5801D928F850016B4DE /* PBXTargetDependency */,
+				9714D5821D928F850016B4DE /* PBXTargetDependency */,
+			);
+			name = biquad_all;
+			productName = biquad;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		9714D5711D928EB40016B4DE /* biquads.c in Sources */ = {isa = PBXBuildFile; fileRef = 9714D56F1D928EB40016B4DE /* biquads.c */; };
+		9714D5721D928EB40016B4DE /* biquads.h in Headers */ = {isa = PBXBuildFile; fileRef = 9714D5701D928EB40016B4DE /* biquads.h */; };
+		9714D5831D928FF80016B4DE /* biquads.c in Sources */ = {isa = PBXBuildFile; fileRef = 9714D56F1D928EB40016B4DE /* biquads.c */; };
+		9714D5841D928FFB0016B4DE /* biquads.h in Headers */ = {isa = PBXBuildFile; fileRef = 9714D5701D928EB40016B4DE /* biquads.h */; };
+		972A86551D92C11400B42DE2 /* biquads.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 972A86201D92B35000B42DE2 /* biquads.hpp */; };
+		972A86561D92C11400B42DE2 /* biquads.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 972A86201D92B35000B42DE2 /* biquads.hpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9714D57F1D928F850016B4DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9714D5601D928EA70016B4DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9714D5671D928EA70016B4DE;
+			remoteInfo = biquad_static;
+		};
+		9714D5811D928F850016B4DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9714D5601D928EA70016B4DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9714D5761D928EFA0016B4DE;
+			remoteInfo = biquad_dynamic;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9714D5681D928EA70016B4DE /* libbiquad.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libbiquad.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9714D56F1D928EB40016B4DE /* biquads.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = biquads.c; sourceTree = "<group>"; };
+		9714D5701D928EB40016B4DE /* biquads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = biquads.h; sourceTree = "<group>"; };
+		9714D5771D928EFA0016B4DE /* libbiquad.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libbiquad.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		972A86201D92B35000B42DE2 /* biquads.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = biquads.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9714D5651D928EA70016B4DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9714D5741D928EFA0016B4DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9714D55F1D928EA70016B4DE = {
+			isa = PBXGroup;
+			children = (
+				9714D56F1D928EB40016B4DE /* biquads.c */,
+				972A86201D92B35000B42DE2 /* biquads.hpp */,
+				9714D5701D928EB40016B4DE /* biquads.h */,
+				9714D5691D928EA70016B4DE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9714D5691D928EA70016B4DE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9714D5681D928EA70016B4DE /* libbiquad.a */,
+				9714D5771D928EFA0016B4DE /* libbiquad.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		9714D5661D928EA70016B4DE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				972A86551D92C11400B42DE2 /* biquads.hpp in Headers */,
+				9714D5721D928EB40016B4DE /* biquads.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9714D5751D928EFA0016B4DE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				972A86561D92C11400B42DE2 /* biquads.hpp in Headers */,
+				9714D5841D928FFB0016B4DE /* biquads.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		9714D5671D928EA70016B4DE /* biquad_static */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9714D56C1D928EA70016B4DE /* Build configuration list for PBXNativeTarget "biquad_static" */;
+			buildPhases = (
+				9714D5641D928EA70016B4DE /* Sources */,
+				9714D5651D928EA70016B4DE /* Frameworks */,
+				9714D5661D928EA70016B4DE /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = biquad_static;
+			productName = biquad;
+			productReference = 9714D5681D928EA70016B4DE /* libbiquad.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		9714D5761D928EFA0016B4DE /* biquad_dynamic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9714D5781D928EFA0016B4DE /* Build configuration list for PBXNativeTarget "biquad_dynamic" */;
+			buildPhases = (
+				9714D5731D928EFA0016B4DE /* Sources */,
+				9714D5741D928EFA0016B4DE /* Frameworks */,
+				9714D5751D928EFA0016B4DE /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = biquad_dynamic;
+			productName = biquad_dynamic;
+			productReference = 9714D5771D928EFA0016B4DE /* libbiquad.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9714D5601D928EA70016B4DE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Christopher Hummersone";
+				TargetAttributes = {
+					9714D5671D928EA70016B4DE = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					9714D5761D928EFA0016B4DE = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					9714D57B1D928F7A0016B4DE = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = 9714D5631D928EA70016B4DE /* Build configuration list for PBXProject "biquad" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 9714D55F1D928EA70016B4DE;
+			productRefGroup = 9714D5691D928EA70016B4DE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9714D5671D928EA70016B4DE /* biquad_static */,
+				9714D5761D928EFA0016B4DE /* biquad_dynamic */,
+				9714D57B1D928F7A0016B4DE /* biquad_all */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9714D5641D928EA70016B4DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9714D5711D928EB40016B4DE /* biquads.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9714D5731D928EFA0016B4DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9714D5831D928FF80016B4DE /* biquads.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9714D5801D928F850016B4DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9714D5671D928EA70016B4DE /* biquad_static */;
+			targetProxy = 9714D57F1D928F850016B4DE /* PBXContainerItemProxy */;
+		};
+		9714D5821D928F850016B4DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9714D5761D928EFA0016B4DE /* biquad_dynamic */;
+			targetProxy = 9714D5811D928F850016B4DE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		9714D56A1D928EA70016B4DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		9714D56B1D928EA70016B4DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		9714D56D1D928EA70016B4DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_MODULE_NAME = biquad;
+				PRODUCT_NAME = biquad;
+			};
+			name = Debug;
+		};
+		9714D56E1D928EA70016B4DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_MODULE_NAME = biquad;
+				PRODUCT_NAME = biquad;
+			};
+			name = Release;
+		};
+		9714D5791D928EFA0016B4DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_MODULE_NAME = biquad;
+				PRODUCT_NAME = biquad;
+			};
+			name = Debug;
+		};
+		9714D57A1D928EFA0016B4DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_MODULE_NAME = biquad;
+				PRODUCT_NAME = biquad;
+			};
+			name = Release;
+		};
+		9714D57D1D928F7A0016B4DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/Build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9714D57E1D928F7A0016B4DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/Build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9714D5631D928EA70016B4DE /* Build configuration list for PBXProject "biquad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9714D56A1D928EA70016B4DE /* Debug */,
+				9714D56B1D928EA70016B4DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9714D56C1D928EA70016B4DE /* Build configuration list for PBXNativeTarget "biquad_static" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9714D56D1D928EA70016B4DE /* Debug */,
+				9714D56E1D928EA70016B4DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9714D5781D928EFA0016B4DE /* Build configuration list for PBXNativeTarget "biquad_dynamic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9714D5791D928EFA0016B4DE /* Debug */,
+				9714D57A1D928EFA0016B4DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9714D57C1D928F7A0016B4DE /* Build configuration list for PBXAggregateTarget "biquad_all" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9714D57D1D928F7A0016B4DE /* Debug */,
+				9714D57E1D928F7A0016B4DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9714D5601D928EA70016B4DE /* Project object */;
+}
