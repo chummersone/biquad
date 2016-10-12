@@ -74,7 +74,6 @@ bqFloat biquad_process(biquad *b, bqFloat input) {
     bqFloat *X = b->X;
     bqFloat *Y = b->Y;
     unsigned int ix = b->index;
-    bqFloat output;
     
     // put input on to buffer
     X[BUFFIX(ix,0)] = input;
@@ -88,7 +87,7 @@ bqFloat biquad_process(biquad *b, bqFloat input) {
         A[2]*Y[BUFFIX(ix, -2)];
     
     // write output
-    output = Y[BUFFIX(ix,0)];
+    bqFloat output = Y[BUFFIX(ix,0)];
     
     // step through buffer
     ix = BUFFIX(ix,1);
