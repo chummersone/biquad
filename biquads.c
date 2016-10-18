@@ -275,3 +275,26 @@ void biquad_calculate(biquad *b) {
         B[i] /= norm;
     }
 }
+
+// return the filter name
+const char* biquad_getFilterName(biquad *b) {
+    switch (b->type) {
+        case BQ_LOWPASS:
+            return "low-pass";
+        case BQ_HIGHPASS:
+            return "high-pass";
+        case BQ_BANDPASS: // (constant 0 dB peak gain)
+            return "band-pass";
+        case BQ_NOTCH:
+            return "notch";
+        case BQ_PEAK:
+            return "peak";
+        case BQ_LOWSHELF:
+            return "low-shelf";
+        case BQ_HIGHSHELF:
+            return "high-shelf";
+        case BQ_NUM_FILTERS:
+        default:
+            return "none";
+    }
+}

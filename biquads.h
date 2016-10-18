@@ -58,6 +58,9 @@ extern double biquad_getPeakGain(biquad *b);
 // clear buffers
 extern void biquad_clear(biquad *b);
 
+// return the filter name
+const char* biquad_getFilterName(biquad *b);
+
 #ifdef __cplusplus
 }
 #endif
