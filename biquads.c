@@ -90,7 +90,7 @@ bqFloat biquad_process(biquad *b, bqFloat input) {
     bqFloat output = Y[BUFFIX(ix,0)];
     
     // step through buffer
-    ix = BUFFIX(ix,1);
+    b->index = BUFFIX(ix,1);
     
     return output;
 }
@@ -123,6 +123,31 @@ void biquad_setQ(biquad *b, double Q) {
 void biquad_setPeakGain(biquad *b, double peakGain) {
     b->peakGain = peakGain;
     biquad_calculate(b);
+}
+
+// get filter parameter - fs
+double biquad_getFs(biquad *b) {
+    return b->fs;
+}
+
+// get filter parameter - type
+bqFilterType biquad_getType(biquad *b) {
+    return b->type;
+}
+
+// get filter parameter - fc
+double biquad_getFc(biquad *b) {
+    return b->fc;
+}
+
+// get filter parameter - Q
+double biquad_getQ(biquad *b) {
+    return b->Q;
+}
+
+// get filter parameter - peakGain
+double biquad_getPeakGain(biquad *b) {
+    return b->peakGain;
 }
 
 // clear buffers
@@ -246,7 +271,7 @@ void biquad_calculate(biquad *b) {
     // normalize
     double norm = A[0];
     for (int i = 0; i < BQN; i++) {
-        A[i] = A[i]/norm;
-        B[i] = B[i]/norm;
+        A[i] /= norm;
+        B[i] /= norm;
     }
 }

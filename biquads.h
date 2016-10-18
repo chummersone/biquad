@@ -48,6 +48,13 @@ extern void biquad_setFc(biquad *b, double fc);
 extern void biquad_setQ(biquad *b, double Q);
 extern void biquad_setPeakGain(biquad *b, double peakGain);
 
+// get filter parameters
+extern double biquad_getFs(biquad *b);
+extern bqFilterType biquad_getType(biquad *b);
+extern double biquad_getFc(biquad *b);
+extern double biquad_getQ(biquad *b);
+extern double biquad_getPeakGain(biquad *b);
+
 // clear buffers
 extern void biquad_clear(biquad *b);
 
