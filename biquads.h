@@ -35,6 +35,9 @@ extern biquad * biquad_create(
 // destroy the biquad
 extern void biquad_destroy(biquad *b);
 
+// clone the biquad
+extern biquad * biquad_clone(biquad *b);
+
 // calculate magnitude
 extern double biquad_magnitude(biquad *b, double freq);
 

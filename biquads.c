@@ -61,6 +61,30 @@ void biquad_destroy(biquad *b) {
     free(b);
 }
 
+// clone the biquad
+biquad * biquad_clone(biquad *original) {
+    biquad *b = malloc(sizeof(biquad));
+    if (b != NULL) {
+    
+        // put data in structure
+        b->fs = original->fs;
+        b->index = original->index;
+        b->type = original->type;
+        b->fc = original->fc;
+        b->Q = original->Q;
+        b->peakGain = original->peakGain;
+        
+        // set coefficients and buffers
+        for (int n = 0; n < BQN; n++) {
+            b->A[n] = original->A[n];
+            b->B[n] = original->B[n];
+            b->X[n] = original->X[n];
+            b->Y[n] = original->Y[n];
+        }
+    }
+    return b;
+}
+
 // calculate magnitude
 double biquad_magnitude(biquad *b, double freq) {
     return cabs(biquad_tf(b, freq));
