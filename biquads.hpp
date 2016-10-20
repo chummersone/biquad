@@ -1,3 +1,5 @@
+// A basic C++ wrapper for the biquad filter
+
 #ifndef BIQUADS_HPP_
 #define BIQUADS_HPP_
 
