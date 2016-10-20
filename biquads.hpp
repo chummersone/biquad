@@ -26,8 +26,17 @@ public:
     // copy constructor
     biquadFilter(const biquadFilter& other);
     
-    // assignment
-    biquadFilter& operator=(const biquadFilter& other);
+    // move constructor
+    biquadFilter(biquadFilter&& other);
+    
+    // copy assignment
+    biquadFilter& operator=(biquadFilter other);
+    
+    // move assignment
+    biquadFilter& operator=(biquadFilter&& other);
+    
+    // swap
+    friend void swap(biquadFilter& first, biquadFilter& second);
     
     // calculate magnitude
     double magnitude(double f) const;
@@ -83,13 +92,28 @@ b(biquad_clone(other.b.get()), biquad_destroy) {
     if (!b) throw std::bad_alloc();
 }
 
-// assignment overload
-biquadFilter& biquadFilter::operator=(const biquadFilter& other) {
-    if (this != &other) {
-        b.reset(biquad_clone(other.b.get()));
-        if (!b) throw std::bad_alloc();
-    }
+// move constructor
+biquadFilter::biquadFilter(biquadFilter&& other) :
+biquadFilter() {
+    swap(*this, other);
+}
+
+// copy assignment
+biquadFilter& biquadFilter::operator=(biquadFilter other) {
+    swap(*this, other);
     return *this;
+}
+
+// move assignment
+biquadFilter& biquadFilter::operator=(biquadFilter&& other) {
+    this->b = std::move(other.b);
+    return *this;
+}
+
+// swap
+void swap(biquadFilter& first, biquadFilter& second) {
+    using std::swap;
+    swap(first.b, second.b);
 }
 
 // calculate magnitude
