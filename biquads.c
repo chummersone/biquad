@@ -24,11 +24,11 @@ struct biquad_s {
 
 // private functions
 static double complex biquad_evalPoly(double complex z, const double coeffs[BQN]);
-static double complex biquad_tf(const biquad *b, double freq);
-static void biquad_calculate(biquad *b);
+static double complex biquad_tf(const biquad* b, double freq);
+static void biquad_calculate(biquad* b);
 
 // create a biquad
-biquad *biquad_create(
+biquad* biquad_create(
     bqFilterType type,
     int fs,
     double fc,
@@ -36,7 +36,7 @@ biquad *biquad_create(
     double peakGain
 ) {
     // allocate biquad and return pointer
-    biquad *b = malloc(sizeof(biquad));
+    biquad* b = malloc(sizeof(biquad));
     if (b != NULL) {
     
         // put data in structure
@@ -57,13 +57,13 @@ biquad *biquad_create(
 }
 
 // destroy the biquad
-void biquad_destroy(biquad *b) {
+void biquad_destroy(biquad* b) {
     free(b);
 }
 
 // clone the biquad
-biquad * biquad_clone(const biquad *original) {
-    biquad *b = malloc(sizeof(biquad));
+biquad* biquad_clone(const biquad* original) {
+    biquad* b = malloc(sizeof(biquad));
     if (b != NULL) {
         *b = *original;
     }
@@ -71,12 +71,12 @@ biquad * biquad_clone(const biquad *original) {
 }
 
 // calculate magnitude
-double biquad_magnitude(const biquad *b, double freq) {
+double biquad_magnitude(const biquad* b, double freq) {
     return cabs(biquad_tf(b, freq));
 }
 
 // process sample
-bqFloat biquad_process(biquad *b, bqFloat input) {
+bqFloat biquad_process(biquad* b, bqFloat input) {
 
     double *A = b->A;
     double *B = b->B;
@@ -105,62 +105,62 @@ bqFloat biquad_process(biquad *b, bqFloat input) {
 }
 
 // set filter parameter - fs
-void biquad_setFs(biquad *b, double fs) {
+void biquad_setFs(biquad* b, double fs) {
     b->fs = fs;
     biquad_calculate(b);
 }
 
 // set filter parameter - type
-void biquad_setType(biquad *b, bqFilterType type) {
+void biquad_setType(biquad* b, bqFilterType type) {
     b->type = type;
     biquad_calculate(b);
 }
 
 // set filter parameter - fc
-void biquad_setFc(biquad *b, double fc) {
+void biquad_setFc(biquad* b, double fc) {
     b->fc = fc;
     biquad_calculate(b);
 }
 
 // set filter parameter - Q
-void biquad_setQ(biquad *b, double Q) {
+void biquad_setQ(biquad* b, double Q) {
     b->Q = Q;
     biquad_calculate(b);
 }
 
 // set filter parameter - peakGain
-void biquad_setPeakGain(biquad *b, double peakGain) {
+void biquad_setPeakGain(biquad* b, double peakGain) {
     b->peakGain = peakGain;
     biquad_calculate(b);
 }
 
 // get filter parameter - fs
-double biquad_getFs(const biquad *b) {
+double biquad_getFs(const biquad* b) {
     return b->fs;
 }
 
 // get filter parameter - type
-bqFilterType biquad_getType(const biquad *b) {
+bqFilterType biquad_getType(const biquad* b) {
     return b->type;
 }
 
 // get filter parameter - fc
-double biquad_getFc(const biquad *b) {
+double biquad_getFc(const biquad* b) {
     return b->fc;
 }
 
 // get filter parameter - Q
-double biquad_getQ(const biquad *b) {
+double biquad_getQ(const biquad* b) {
     return b->Q;
 }
 
 // get filter parameter - peakGain
-double biquad_getPeakGain(const biquad *b) {
+double biquad_getPeakGain(const biquad* b) {
     return b->peakGain;
 }
 
 // clear buffers
-void biquad_clear(biquad *b) {
+void biquad_clear(biquad* b) {
     // reset buffers
     for (int n = 0; n < BQN; n++) {
         b->X[n] = 0.0;
@@ -178,7 +178,7 @@ double complex biquad_evalPoly(double complex z, const double coeffs[BQN]) {
 }
 
 // calculate transfer function
-double complex biquad_tf(const biquad *b, double freq) {
+double complex biquad_tf(const biquad* b, double freq) {
 
     /* Calculate z = e^{\omega T} for frequency */
     double complex omegaT = 2 * M_PI * freq / (b->fs);
@@ -194,7 +194,7 @@ double complex biquad_tf(const biquad *b, double freq) {
 }
 
 // calculate filter coefficients
-void biquad_calculate(biquad *b) {
+void biquad_calculate(biquad* b) {
 
     // shorten names
     double *A = b->A;
@@ -267,6 +267,7 @@ void biquad_calculate(biquad *b) {
             A[1] = 2.0*( (AA-1.0) - (AA+1.0)*cos(w0) );
             A[2] = (AA+1.0) - (AA-1.0)*cos(w0) - 2.0*sqrt(AA)*alpha;
             break;
+        case BQ_NONE:
         case BQ_NUM_FILTERS:
         default:
             B[0] = 1.0;
@@ -286,7 +287,7 @@ void biquad_calculate(biquad *b) {
 }
 
 // return the filter name
-const char* biquad_getFilterName(const biquad *b) {
+const char* biquad_getFilterName(const biquad* b) {
     switch (b->type) {
         case BQ_LOWPASS:
             return "low-pass";
@@ -302,6 +303,7 @@ const char* biquad_getFilterName(const biquad *b) {
             return "low-shelf";
         case BQ_HIGHSHELF:
             return "high-shelf";
+        case BQ_NONE:
         case BQ_NUM_FILTERS:
         default:
             return "none";
