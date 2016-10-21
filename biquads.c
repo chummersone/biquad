@@ -23,8 +23,8 @@ struct biquad_s {
 };
 
 // private functions
-static double complex biquad_evalPoly(double complex z, double coeffs[]);
-static double complex biquad_tf(biquad *b, double freq);
+static double complex biquad_evalPoly(double complex z, const double coeffs[BQN]);
+static double complex biquad_tf(const biquad *b, double freq);
 static void biquad_calculate(biquad *b);
 
 // create a biquad
@@ -62,31 +62,16 @@ void biquad_destroy(biquad *b) {
 }
 
 // clone the biquad
-biquad * biquad_clone(biquad *original) {
+biquad * biquad_clone(const biquad *original) {
     biquad *b = malloc(sizeof(biquad));
     if (b != NULL) {
-    
-        // put data in structure
-        b->fs = original->fs;
-        b->index = original->index;
-        b->type = original->type;
-        b->fc = original->fc;
-        b->Q = original->Q;
-        b->peakGain = original->peakGain;
-        
-        // set coefficients and buffers
-        for (int n = 0; n < BQN; n++) {
-            b->A[n] = original->A[n];
-            b->B[n] = original->B[n];
-            b->X[n] = original->X[n];
-            b->Y[n] = original->Y[n];
-        }
+        *b = *original;
     }
     return b;
 }
 
 // calculate magnitude
-double biquad_magnitude(biquad *b, double freq) {
+double biquad_magnitude(const biquad *b, double freq) {
     return cabs(biquad_tf(b, freq));
 }
 
@@ -150,27 +135,27 @@ void biquad_setPeakGain(biquad *b, double peakGain) {
 }
 
 // get filter parameter - fs
-double biquad_getFs(biquad *b) {
+double biquad_getFs(const biquad *b) {
     return b->fs;
 }
 
 // get filter parameter - type
-bqFilterType biquad_getType(biquad *b) {
+bqFilterType biquad_getType(const biquad *b) {
     return b->type;
 }
 
 // get filter parameter - fc
-double biquad_getFc(biquad *b) {
+double biquad_getFc(const biquad *b) {
     return b->fc;
 }
 
 // get filter parameter - Q
-double biquad_getQ(biquad *b) {
+double biquad_getQ(const biquad *b) {
     return b->Q;
 }
 
 // get filter parameter - peakGain
-double biquad_getPeakGain(biquad *b) {
+double biquad_getPeakGain(const biquad *b) {
     return b->peakGain;
 }
 
@@ -184,7 +169,7 @@ void biquad_clear(biquad *b) {
 }
 
 // evaluate complex polynomial
-double complex biquad_evalPoly(double complex z, double coeffs[]) {
+double complex biquad_evalPoly(double complex z, const double coeffs[BQN]) {
     double complex y = 0;
     for (int i = 0; i < BQN; i++) {
         y += (coeffs[i]) * cpow(z,i);
@@ -193,7 +178,7 @@ double complex biquad_evalPoly(double complex z, double coeffs[]) {
 }
 
 // calculate transfer function
-double complex biquad_tf(biquad *b, double freq) {
+double complex biquad_tf(const biquad *b, double freq) {
 
     /* Calculate z = e^{\omega T} for frequency */
     double complex omegaT = 2 * M_PI * freq / (b->fs);
@@ -301,7 +286,7 @@ void biquad_calculate(biquad *b) {
 }
 
 // return the filter name
-const char* biquad_getFilterName(biquad *b) {
+const char* biquad_getFilterName(const biquad *b) {
     switch (b->type) {
         case BQ_LOWPASS:
             return "low-pass";

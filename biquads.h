@@ -36,10 +36,10 @@ extern biquad * biquad_create(
 extern void biquad_destroy(biquad *b);
 
 // clone the biquad
-extern biquad * biquad_clone(biquad *b);
+extern biquad * biquad_clone(const biquad *b);
 
 // calculate magnitude
-extern double biquad_magnitude(biquad *b, double freq);
+extern double biquad_magnitude(const biquad *b, double freq);
 
 // process sample
 extern bqFloat biquad_process(biquad *b, bqFloat input);
@@ -52,17 +52,17 @@ extern void biquad_setQ(biquad *b, double Q);
 extern void biquad_setPeakGain(biquad *b, double peakGain);
 
 // get filter parameters
-extern double biquad_getFs(biquad *b);
-extern bqFilterType biquad_getType(biquad *b);
-extern double biquad_getFc(biquad *b);
-extern double biquad_getQ(biquad *b);
-extern double biquad_getPeakGain(biquad *b);
+extern double biquad_getFs(const biquad *b);
+extern bqFilterType biquad_getType(const biquad *b);
+extern double biquad_getFc(const biquad *b);
+extern double biquad_getQ(const biquad *b);
+extern double biquad_getPeakGain(const biquad *b);
 
 // clear buffers
 extern void biquad_clear(biquad *b);
 
 // return the filter name
-const char* biquad_getFilterName(biquad *b);
+const char* biquad_getFilterName(const biquad *b);
 
 #ifdef __cplusplus
 }
