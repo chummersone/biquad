@@ -75,6 +75,11 @@ double biquad_magnitude(const biquad* b, double freq) {
     return cabs(biquad_tf(b, freq));
 }
 
+double biquad_wrphase(const biquad* b, double freq) {
+    double phase = carg(biquad_tf(b, freq));
+    return (phase < 0 ? phase + (2.0*M_PI) : phase);
+}
+
 // process sample
 bqFloat biquad_process(biquad* b, bqFloat input) {
 

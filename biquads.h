@@ -42,6 +42,9 @@ extern biquad* biquad_clone(const biquad* b);
 // calculate magnitude
 extern double biquad_magnitude(const biquad* b, double freq);
 
+// calculate wrapped phase
+extern double biquad_wrphase(const biquad* b, double freq);
+
 // process sample
 extern bqFloat biquad_process(biquad* b, bqFloat input);
 
