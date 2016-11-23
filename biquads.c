@@ -6,7 +6,7 @@
 #define BQN 3
 
 // return buffer index
-#define BUFFIX(ix,n) ((ix+n+BQN)%BQN)
+#define BUFFIX(n,k) ((n+k+BQN)%BQN)
 
 // the biquad structure
 struct biquad_s {
@@ -87,24 +87,24 @@ bqFloat biquad_process(biquad* b, bqFloat input) {
     double *B = b->B;
     bqFloat *X = b->X;
     bqFloat *Y = b->Y;
-    unsigned int ix = b->index;
+    unsigned int n = b->index;
     
     // put input on to buffer
-    X[BUFFIX(ix,0)] = input;
+    X[BUFFIX(n,0)] = input;
     
     // process input
-    Y[BUFFIX(ix,0)] =
-        B[0]*X[BUFFIX(ix,  0)] +
-        B[1]*X[BUFFIX(ix, -1)] +
-        B[2]*X[BUFFIX(ix, -2)] -
-        A[1]*Y[BUFFIX(ix, -1)] -
-        A[2]*Y[BUFFIX(ix, -2)];
+    Y[BUFFIX(n,0)] =
+        B[0]*X[BUFFIX(n,  0)] +
+        B[1]*X[BUFFIX(n, -1)] +
+        B[2]*X[BUFFIX(n, -2)] -
+        A[1]*Y[BUFFIX(n, -1)] -
+        A[2]*Y[BUFFIX(n, -2)];
     
     // write output
-    bqFloat output = Y[BUFFIX(ix,0)];
+    bqFloat output = Y[BUFFIX(n, 0)];
     
     // step through buffer
-    b->index = BUFFIX(ix,1);
+    b->index = BUFFIX(n, 1);
     
     return output;
 }
