@@ -214,23 +214,26 @@ void biquad_calculate(biquad* b) {
     double w0 = 2.0*M_PI*fc/fs;
     double alpha = sin(w0)/(2.0*Q);
     
+    double cos_w0 = cos(w0);
+    double sqrt_AA = sqrt(AA);
+    
     // source : http://www.musicdsp.org/files/Audio-EQ-Cookbook.txt
     
     switch (b->type) {
         case BQ_LOWPASS:
-            B[0] = (1.0 - cos(w0))/2.0;
-            B[1] = 1.0 - cos(w0);
-            B[2] = (1.0 - cos(w0))/2.0;
+            B[0] = (1.0 - cos_w0)/2.0;
+            B[1] = 1.0 - cos_w0;
+            B[2] = (1.0 - cos_w0)/2.0;
             A[0] = 1 + alpha;
-            A[1] = -2.0*cos(w0);
+            A[1] = -2.0*cos_w0;
             A[2] = 1.0 - alpha;
             break;
         case BQ_HIGHPASS:
-            B[0] = (1.0 + cos(w0))/2.0;
-            B[1] = -(1.0 + cos(w0));
-            B[2] = (1.0 + cos(w0))/2.0;
+            B[0] = (1.0 + cos_w0)/2.0;
+            B[1] = -(1.0 + cos_w0);
+            B[2] = (1.0 + cos_w0)/2.0;
             A[0] = 1.0 + alpha;
-            A[1] = -2.0*cos(w0);
+            A[1] = -2.0*cos_w0;
             A[2] = 1.0 - alpha;
             break;
         case BQ_BANDPASS: // (constant 0 dB peak gain)
@@ -238,40 +241,40 @@ void biquad_calculate(biquad* b) {
             B[1] = 0.0;
             B[2] = -alpha;
             A[0] = 1.0 + alpha;
-            A[1] = -2.0*cos(w0);
+            A[1] = -2.0*cos_w0;
             A[2] = 1.0 - alpha;
             break;
         case BQ_NOTCH:
             B[0] = 1.0;
-            B[1] = -2.0*cos(w0);
+            B[1] = -2.0*cos_w0;
             B[2] = 1.0;
             A[0] = 1.0 + alpha;
-            A[1] = -2.0*cos(w0);
+            A[1] = -2.0*cos_w0;
             A[2] = 1.0 - alpha;
             break;
         case BQ_PEAK:
             B[0] = 1.0 + alpha*AA;
-            B[1] = -2.0*cos(w0);
+            B[1] = -2.0*cos_w0;
             B[2] = 1.0 - alpha*AA;
             A[0] = 1.0 + alpha/AA;
-            A[1] = -2.0*cos(w0);
+            A[1] = -2.0*cos_w0;
             A[2] = 1.0 - alpha/AA;
             break;
         case BQ_LOWSHELF:
-            B[0] = AA*( (AA+1.0) - (AA-1.0)*cos(w0) + 2.0*sqrt(AA)*alpha );
-            B[1] = 2.0*AA*( (AA-1) - (AA+1.0)*cos(w0) );
-            B[2] = AA*( (AA+1.0) - (AA-1.0)*cos(w0) - 2.0*sqrt(AA)*alpha );
-            A[0] = (AA+1.0) + (AA-1.0)*cos(w0) + 2.0*sqrt(AA)*alpha;
-            A[1] = -2.0*( (AA-1.0) + (AA+1.0)*cos(w0) );
-            A[2] = (AA+1.0) + (AA-1.0)*cos(w0) - 2.0*sqrt(AA)*alpha;
+            B[0] = AA*( (AA+1.0) - (AA-1.0)*cos_w0 + 2.0*sqrt_AA*alpha );
+            B[1] = 2.0*AA*( (AA-1) - (AA+1.0)*cos_w0 );
+            B[2] = AA*( (AA+1.0) - (AA-1.0)*cos_w0 - 2.0*sqrt_AA*alpha );
+            A[0] = (AA+1.0) + (AA-1.0)*cos_w0 + 2.0*sqrt_AA*alpha;
+            A[1] = -2.0*( (AA-1.0) + (AA+1.0)*cos_w0 );
+            A[2] = (AA+1.0) + (AA-1.0)*cos_w0 - 2.0*sqrt_AA*alpha;
             break;
         case BQ_HIGHSHELF:
-            B[0] = AA*( (AA+1.0) + (AA-1.0)*cos(w0) + 2.0*sqrt(AA)*alpha );
-            B[1] = -2.0*AA*( (AA-1.0) + (AA+1.0)*cos(w0) );
-            B[2] = AA*( (AA+1.0) + (AA-1.0)*cos(w0) - 2.0*sqrt(AA)*alpha );
-            A[0] = (AA+1.0) - (AA-1.0)*cos(w0) + 2.0*sqrt(AA)*alpha;
-            A[1] = 2.0*( (AA-1.0) - (AA+1.0)*cos(w0) );
-            A[2] = (AA+1.0) - (AA-1.0)*cos(w0) - 2.0*sqrt(AA)*alpha;
+            B[0] = AA*( (AA+1.0) + (AA-1.0)*cos_w0 + 2.0*sqrt_AA*alpha );
+            B[1] = -2.0*AA*( (AA-1.0) + (AA+1.0)*cos_w0 );
+            B[2] = AA*( (AA+1.0) + (AA-1.0)*cos_w0 - 2.0*sqrt_AA*alpha );
+            A[0] = (AA+1.0) - (AA-1.0)*cos_w0 + 2.0*sqrt_AA*alpha;
+            A[1] = 2.0*( (AA-1.0) - (AA+1.0)*cos_w0 );
+            A[2] = (AA+1.0) - (AA-1.0)*cos_w0 - 2.0*sqrt_AA*alpha;
             break;
         case BQ_NONE:
         case BQ_NUM_FILTERS:
