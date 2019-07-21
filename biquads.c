@@ -3,33 +3,40 @@
 #include <complex.h>
 #include "biquads.h"
 
-#define BQN 3
+#define BQN (3)
 
-// return buffer index
-#define BUFFIX(n,k) ((n+k+BQN)%BQN)
+// index type
+typedef unsigned int index_t;
+// coeff type
+typedef double coeff_t;
 
 // the biquad structure
 struct biquad_s {
-    double A[BQN];
-    double B[BQN];
-    bqFloat X[BQN];
-    bqFloat Y[BQN];
-    unsigned int index;
-    double fs;
-    bqFilterType type;
-    double fc;
-    double Q;
-    double peakGain;
+    coeff_t   A[BQN];
+    coeff_t   B[BQN];
+    sample_t  X[BQN];
+    sample_t  Y[BQN];
+    index_t   index;
+    double    fs;
+    bq_type_e type;
+    double    fc;
+    double    Q;
+    double    peakGain;
 };
 
 // private functions
-static double complex biquad_evalPoly(double complex z, const double coeffs[BQN]);
+static double complex biquad_evalPoly(double complex z, const coeff_t coeffs[BQN]);
 static double complex biquad_tf(const biquad* b, double freq);
 static void biquad_calculate(biquad* b);
 
+// return buffer index
+static inline index_t buff_ix(index_t n, int k) {
+    return (n + k + BQN) % BQN;
+}
+
 // create a biquad
 biquad* biquad_create(
-    bqFilterType type,
+    bq_type_e type,
     int fs,
     double fc,
     double Q,
@@ -82,30 +89,30 @@ double biquad_wrphase(const biquad* b, double freq) {
 }
 
 // process sample
-bqFloat biquad_process(biquad* b, bqFloat input) {
+sample_t biquad_process(biquad* b, sample_t input) {
 
-    double *A = b->A;
-    double *B = b->B;
-    bqFloat *X = b->X;
-    bqFloat *Y = b->Y;
-    unsigned int n = b->index;
+    coeff_t *A  = b->A;
+    coeff_t *B  = b->B;
+    sample_t *X = b->X;
+    sample_t *Y = b->Y;
+    index_t n   = b->index;
     
     // put input on to buffer
-    X[BUFFIX(n,0)] = input;
+    X[buff_ix(n,0)] = input;
     
     // process input
-    Y[BUFFIX(n,0)] =
-        B[0]*X[BUFFIX(n,  0)] +
-        B[1]*X[BUFFIX(n, -1)] +
-        B[2]*X[BUFFIX(n, -2)] -
-        A[1]*Y[BUFFIX(n, -1)] -
-        A[2]*Y[BUFFIX(n, -2)];
+    Y[buff_ix(n,0)] =
+        B[0] * X[buff_ix(n,  0)] +
+        B[1] * X[buff_ix(n, -1)] +
+        B[2] * X[buff_ix(n, -2)] -
+        A[1] * Y[buff_ix(n, -1)] -
+        A[2] * Y[buff_ix(n, -2)];
     
     // write output
-    bqFloat output = Y[BUFFIX(n, 0)];
+    sample_t output = Y[buff_ix(n, 0)];
     
     // step through buffer
-    b->index = BUFFIX(n, 1);
+    b->index = buff_ix(n, 1);
     
     return output;
 }
@@ -117,7 +124,7 @@ void biquad_setFs(biquad* b, double fs) {
 }
 
 // set filter parameter - type
-void biquad_setType(biquad* b, bqFilterType type) {
+void biquad_setType(biquad* b, bq_type_e type) {
     b->type = type;
     biquad_calculate(b);
 }
@@ -146,7 +153,7 @@ double biquad_getFs(const biquad* b) {
 }
 
 // get filter parameter - type
-bqFilterType biquad_getType(const biquad* b) {
+bq_type_e biquad_getType(const biquad* b) {
     return b->type;
 }
 
@@ -175,10 +182,10 @@ void biquad_clear(biquad* b) {
 }
 
 // evaluate complex polynomial
-double complex biquad_evalPoly(double complex z, const double coeffs[BQN]) {
+double complex biquad_evalPoly(double complex z, const coeff_t coeffs[BQN]) {
     double complex y = 0;
     for (int i = 0; i < BQN; i++) {
-        y += (coeffs[i]) * cpow(z,i);
+        y += (coeffs[i]) * cpow(z, i);
     }
     return y;
 }
@@ -195,45 +202,45 @@ double complex biquad_tf(const biquad* b, double freq) {
     
     /* Calculate the value of the denominator in the transfer function */
     double complex den = biquad_evalPoly(z,b->A);
-    
-    return num/den;
+
+    return num / den;
 }
 
 // calculate filter coefficients
 void biquad_calculate(biquad* b) {
 
     // shorten names
-    double *A = b->A;
-    double *B = b->B;
-    double Q = b->Q;
-    double fs = b->fs;
-    double fc = b->fc;
+    coeff_t *A      = b->A;
+    coeff_t *B      = b->B;
+    double Q        = b->Q;
+    double fs       = b->fs;
+    double fc       = b->fc;
     double peakGain = b->peakGain;
 
-    double AA  = pow(10.0,peakGain/40.0);
-    double w0 = 2.0*M_PI*fc/fs;
-    double alpha = sin(w0)/(2.0*Q);
+    coeff_t AA       = pow(10.0, peakGain / 40.0);
+    coeff_t w0       = 2.0 * M_PI * fc / fs;
+    coeff_t alpha    = sin(w0) / (2.0 * Q);
     
-    double cos_w0 = cos(w0);
-    double sqrt_AA = sqrt(AA);
+    coeff_t cos_w0   = cos(w0);
+    coeff_t sqrt_AA  = sqrt(AA);
     
     // source : http://www.musicdsp.org/files/Audio-EQ-Cookbook.txt
     
     switch (b->type) {
         case BQ_LOWPASS:
-            B[0] = (1.0 - cos_w0)/2.0;
+            B[0] = (1.0 - cos_w0) / 2.0;
             B[1] = 1.0 - cos_w0;
-            B[2] = (1.0 - cos_w0)/2.0;
+            B[2] = (1.0 - cos_w0) / 2.0;
             A[0] = 1 + alpha;
-            A[1] = -2.0*cos_w0;
+            A[1] = -2.0 * cos_w0;
             A[2] = 1.0 - alpha;
             break;
         case BQ_HIGHPASS:
-            B[0] = (1.0 + cos_w0)/2.0;
+            B[0] = (1.0 + cos_w0) / 2.0;
             B[1] = -(1.0 + cos_w0);
-            B[2] = (1.0 + cos_w0)/2.0;
+            B[2] = (1.0 + cos_w0) / 2.0;
             A[0] = 1.0 + alpha;
-            A[1] = -2.0*cos_w0;
+            A[1] = -2.0 * cos_w0;
             A[2] = 1.0 - alpha;
             break;
         case BQ_BANDPASS: // (constant 0 dB peak gain)
@@ -241,40 +248,40 @@ void biquad_calculate(biquad* b) {
             B[1] = 0.0;
             B[2] = -alpha;
             A[0] = 1.0 + alpha;
-            A[1] = -2.0*cos_w0;
+            A[1] = -2.0 * cos_w0;
             A[2] = 1.0 - alpha;
             break;
         case BQ_NOTCH:
             B[0] = 1.0;
-            B[1] = -2.0*cos_w0;
+            B[1] = -2.0 * cos_w0;
             B[2] = 1.0;
             A[0] = 1.0 + alpha;
-            A[1] = -2.0*cos_w0;
+            A[1] = -2.0 * cos_w0;
             A[2] = 1.0 - alpha;
             break;
         case BQ_PEAK:
             B[0] = 1.0 + alpha*AA;
-            B[1] = -2.0*cos_w0;
+            B[1] = -2.0 * cos_w0;
             B[2] = 1.0 - alpha*AA;
             A[0] = 1.0 + alpha/AA;
-            A[1] = -2.0*cos_w0;
+            A[1] = -2.0 * cos_w0;
             A[2] = 1.0 - alpha/AA;
             break;
         case BQ_LOWSHELF:
-            B[0] = AA*( (AA+1.0) - (AA-1.0)*cos_w0 + 2.0*sqrt_AA*alpha );
-            B[1] = 2.0*AA*( (AA-1) - (AA+1.0)*cos_w0 );
-            B[2] = AA*( (AA+1.0) - (AA-1.0)*cos_w0 - 2.0*sqrt_AA*alpha );
-            A[0] = (AA+1.0) + (AA-1.0)*cos_w0 + 2.0*sqrt_AA*alpha;
-            A[1] = -2.0*( (AA-1.0) + (AA+1.0)*cos_w0 );
-            A[2] = (AA+1.0) + (AA-1.0)*cos_w0 - 2.0*sqrt_AA*alpha;
+            B[0] = AA * ( (AA + 1.0) - (AA - 1.0) * cos_w0 + 2.0 * sqrt_AA * alpha);
+            B[1] = 2.0 * AA * ((AA - 1) - (AA + 1.0) * cos_w0);
+            B[2] = AA * ((AA + 1.0) - (AA - 1.0) * cos_w0 - 2.0 * sqrt_AA * alpha);
+            A[0] = (AA + 1.0) + (AA - 1.0) * cos_w0 + 2.0 * sqrt_AA * alpha;
+            A[1] = -2.0 * ((AA - 1.0) + (AA + 1.0) * cos_w0);
+            A[2] = (AA + 1.0) + (AA - 1.0) * cos_w0 - 2.0 * sqrt_AA * alpha;
             break;
         case BQ_HIGHSHELF:
-            B[0] = AA*( (AA+1.0) + (AA-1.0)*cos_w0 + 2.0*sqrt_AA*alpha );
-            B[1] = -2.0*AA*( (AA-1.0) + (AA+1.0)*cos_w0 );
-            B[2] = AA*( (AA+1.0) + (AA-1.0)*cos_w0 - 2.0*sqrt_AA*alpha );
-            A[0] = (AA+1.0) - (AA-1.0)*cos_w0 + 2.0*sqrt_AA*alpha;
-            A[1] = 2.0*( (AA-1.0) - (AA+1.0)*cos_w0 );
-            A[2] = (AA+1.0) - (AA-1.0)*cos_w0 - 2.0*sqrt_AA*alpha;
+            B[0] = AA * ((AA + 1.0) + (AA - 1.0) * cos_w0 + 2.0 * sqrt_AA * alpha);
+            B[1] = -2.0 * AA * ((AA - 1.0) + (AA + 1.0) * cos_w0);
+            B[2] = AA * ((AA + 1.0) + (AA - 1.0) * cos_w0 - 2.0 * sqrt_AA * alpha);
+            A[0] = (AA + 1.0) - (AA - 1.0) * cos_w0 + 2.0 * sqrt_AA * alpha;
+            A[1] = 2.0 * ((AA - 1.0) - (AA + 1.0) * cos_w0);
+            A[2] = (AA + 1.0) - (AA - 1.0) * cos_w0 - 2.0 * sqrt_AA * alpha;
             break;
         case BQ_NONE:
         case BQ_NUM_FILTERS:
@@ -288,8 +295,8 @@ void biquad_calculate(biquad* b) {
     }
     
     // normalize
-    double norm = A[0];
-    for (int i = 0; i < BQN; i++) {
+    coeff_t norm = A[0];
+    for (index_t i = 0; i < BQN; i++) {
         A[i] /= norm;
         B[i] /= norm;
     }

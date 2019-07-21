@@ -8,8 +8,8 @@ extern "C" {
 // biquad type
 typedef struct biquad_s biquad;
 
-// biquad sample type (floating point)
-typedef float bqFloat;
+// sample type (floating point)
+typedef float sample_t;
 
 // filter type enumeration
 typedef enum {
@@ -22,11 +22,11 @@ typedef enum {
     BQ_LOWSHELF,
     BQ_HIGHSHELF,
     BQ_NUM_FILTERS
-} bqFilterType;
+} bq_type_e;
 
 // create a biquad
 extern biquad* biquad_create(
-    bqFilterType type,
+    bq_type_e type,
     int fs,
     double fc,
     double Q,
@@ -46,18 +46,18 @@ extern double biquad_magnitude(const biquad* b, double freq);
 extern double biquad_wrphase(const biquad* b, double freq);
 
 // process sample
-extern bqFloat biquad_process(biquad* b, bqFloat input);
+extern sample_t biquad_process(biquad* b, sample_t input);
 
 // set filter parameters
 extern void biquad_setFs(biquad* b, double fs);
-extern void biquad_setType(biquad* b, bqFilterType type);
+extern void biquad_setType(biquad* b, bq_type_e type);
 extern void biquad_setFc(biquad* b, double fc);
 extern void biquad_setQ(biquad* b, double Q);
 extern void biquad_setPeakGain(biquad* b, double peakGain);
 
 // get filter parameters
 extern double biquad_getFs(const biquad* b);
-extern bqFilterType biquad_getType(const biquad* b);
+extern bq_type_e biquad_getType(const biquad* b);
 extern double biquad_getFc(const biquad* b);
 extern double biquad_getQ(const biquad* b);
 extern double biquad_getPeakGain(const biquad* b);
