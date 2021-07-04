@@ -45,8 +45,8 @@ extern double biquad_magnitude(const biquad* b, double freq);
 // calculate wrapped phase
 extern double biquad_wrphase(const biquad* b, double freq);
 
-// process sample
-extern sample_t biquad_process(biquad* b, sample_t input);
+// process a buffer of samples
+extern void biquad_process(biquad* b, sample_t* buffer, unsigned int num_samples);
 
 // set filter parameters
 extern void biquad_setFs(biquad* b, double fs);

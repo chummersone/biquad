@@ -89,32 +89,36 @@ double biquad_wrphase(const biquad* b, double freq) {
 }
 
 // process sample
-sample_t biquad_process(biquad* b, sample_t input) {
+void biquad_process(biquad* b, sample_t* buffer, unsigned int num_samples) {
 
     coeff_t *A  = b->A;
     coeff_t *B  = b->B;
     sample_t *X = b->X;
     sample_t *Y = b->Y;
-    index_t n   = b->index;
-    
-    // put input on to buffer
-    X[buff_ix(n,0)] = input;
-    
-    // process input
-    Y[buff_ix(n,0)] =
-        B[0] * X[buff_ix(n,  0)] +
-        B[1] * X[buff_ix(n, -1)] +
-        B[2] * X[buff_ix(n, -2)] -
-        A[1] * Y[buff_ix(n, -1)] -
-        A[2] * Y[buff_ix(n, -2)];
-    
-    // write output
-    sample_t output = Y[buff_ix(n, 0)];
-    
-    // step through buffer
-    b->index = buff_ix(n, 1);
-    
-    return output;
+    index_t nn = b->index;
+
+    for (unsigned int i = 0; i < num_samples; i++) {
+        index_t nm1 = buff_ix(nn, -1);
+        index_t nm2 = buff_ix(nn, -2);
+
+        // put input on to buffer
+        X[nn] = buffer[i];
+
+        // process input
+        Y[nn] =
+            B[0] * X[nn] +
+            B[1] * X[nm1] +
+            B[2] * X[nm2] -
+            A[1] * Y[nm1] -
+            A[2] * Y[nm2];
+
+        // write output
+        buffer[i] = Y[nn];
+
+        nn = buff_ix(nn, 1);
+    }
+
+    b->index = nn;
 }
 
 // set filter parameter - fs
